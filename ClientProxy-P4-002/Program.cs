@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,8 +11,10 @@ namespace ClientProxy_P4_002
     {
         static void Main(string[] args)
         {
-            ServiceReference1.MatematikaClient obj = new
-            ServiceReference1.MatematikaClient();
+            try
+            {
+                ServiceReference1.MatematikaClient obj = new
+                ServiceReference1.MatematikaClient();
                 double hasilTambah = obj.Tambah(1, 2);
                 Console.WriteLine("1 + 2 = " + hasilTambah);
                 double hasilKurang = obj.Kurang(3, 2);
@@ -21,10 +24,10 @@ namespace ClientProxy_P4_002
                 double hasilBagi = obj.Bagi(2, 2);
                 Console.WriteLine("2 / 2 = " + hasilBagi);
 
-           ServiceReference1.Koordinat a = new
-           ServiceReference1.Koordinat();
-           ServiceReference1.Koordinat b = new
-           ServiceReference1.Koordinat();
+                ServiceReference1.Koordinat a = new
+                ServiceReference1.Koordinat();
+                ServiceReference1.Koordinat b = new
+                ServiceReference1.Koordinat();
                 a.X = 7;
                 a.Y = 8;
 
@@ -36,6 +39,13 @@ namespace ClientProxy_P4_002
                 Math.Pow(selisihY, 2));
                 Console.WriteLine("Hasil Koordinat " + jarak);
                 Console.ReadLine();
+            }
+            catch (FaultException<ServiceReference1.MathFault> mf)
+            {
+                Console.WriteLine(mf.Detail.Kode);
+                Console.WriteLine(mf.Detail.Pesan);
+            }
+            Console.ReadLine();
         }
     }
 }
